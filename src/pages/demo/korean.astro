@@ -1,0 +1,176 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DemoBanner from '../../components/DemoBanner.astro';
+
+const academy = '피크국어';
+const accent = '#111111';
+const year = new Date().getFullYear();
+
+const courses = [
+  { no: '01', t: '문학 정복', sub: '작품을 보는 눈을 만든다', target: '고1–고3' },
+  { no: '02', t: '독서(비문학) 논리', sub: '지문을 구조로 읽는 훈련', target: '고1–고3' },
+  { no: '03', t: '언어와 매체', sub: '개념 한 번에 끝내기', target: '고2–고3' },
+  { no: '04', t: '수능 실전 파이널', sub: '시간 안에 푸는 전략', target: '고3·N수' },
+];
+
+const principles = [
+  { t: '소수정예', d: '한 반 정원을 제한해 모든 학생을 직접 관리합니다.' },
+  { t: '첨삭 중심', d: '서술형·논술 답안을 1:1로 첨삭하며 사고력을 끌어올립니다.' },
+  { t: '자체 교재', d: '기출을 재구성한 자체 교재로 군더더기 없이 핵심만.' },
+];
+---
+
+<Layout title={`${academy} — 국어의 기준`}>
+  <div class="k" style={`--accent:${accent}`}>
+    <DemoBanner domain="korean.studiopeak.site" accent="#111111" />
+
+    <header class="k-head">
+      <div class="wrap k-head-in">
+        <span class="k-logo">{academy}<span>.</span></span>
+        <nav><a href="#courses">강좌</a><a href="#teacher">강사</a><a href="#contact">상담</a></nav>
+      </div>
+    </header>
+
+    <section class="k-hero">
+      <div class="wrap">
+        <p class="k-kicker">PREMIUM KOREAN ACADEMY</p>
+        <h1>국어는<br />결국 <span>읽는 힘</span>이다.</h1>
+        <p class="k-lead">단순 암기가 아닌, 지문을 꿰뚫는 독해력. 피크국어는 사고의 기준을 세웁니다.</p>
+        <a href="#contact" class="k-link">상담 신청 →</a>
+      </div>
+    </section>
+
+    <section class="k-quote">
+      <div class="wrap">
+        <blockquote>“문제를 외우지 마라. 글을 읽는 법을 배워라.”</blockquote>
+      </div>
+    </section>
+
+    <section class="k-sec" id="teacher">
+      <div class="wrap k-teacher">
+        <div class="k-teacher-photo" aria-hidden="true">徐</div>
+        <div class="k-teacher-txt">
+          <p class="k-kicker">대표 강사</p>
+          <h2>서준영</h2>
+          <p class="k-teacher-role">국어 영역 총괄 · 18년</p>
+          <p class="k-teacher-desc">前 대형학원 대표 강사. 매년 다수의 1등급·만점자를 배출하며, “읽는 법”을 가르치는 것으로 정평이 나 있습니다. 강의는 곧 한 편의 독해 시연입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="k-sec k-dark" id="courses">
+      <div class="wrap">
+        <h2 class="k-h2 k-h2-light">강좌</h2>
+        <ul class="k-courses">
+          {courses.map((c) => (
+            <li class="k-course">
+              <span class="k-course-no">{c.no}</span>
+              <div class="k-course-main">
+                <h3>{c.t}</h3>
+                <p>{c.sub}</p>
+              </div>
+              <span class="k-course-target">{c.target}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="k-sec">
+      <div class="wrap">
+        <h2 class="k-h2">수업 원칙</h2>
+        <div class="k-principles">
+          {principles.map((p, i) => (
+            <div class="k-principle">
+              <span class="k-pnum">0{i + 1}</span>
+              <h3>{p.t}</h3>
+              <p>{p.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="k-cta" id="contact">
+      <div class="wrap">
+        <h2>국어의 기준을 경험하세요.</h2>
+        <a href="tel:02-3456-7890" class="k-link k-link-lg">02-3456-7890 →</a>
+      </div>
+    </section>
+
+    <footer class="k-foot">
+      <div class="wrap k-foot-in">
+        <span>{academy}</span>
+        <span>© {year} — Website by <a href="https://studiopeak.site">PEAK STUDIO</a></span>
+      </div>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .k { background: #fff; color: #111; font-family: 'Noto Sans KR', sans-serif; }
+  .wrap { width: 100%; max-width: 980px; margin-inline: auto; padding-inline: clamp(20px, 6vw, 48px); }
+  .k a { text-decoration: none; }
+  .k-kicker { font-size: .76rem; letter-spacing: .25em; font-weight: 700; color: #999; text-transform: uppercase; }
+
+  .k-head { border-bottom: 1px solid #111; }
+  .k-head-in { display: flex; align-items: center; height: 70px; }
+  .k-logo { font-size: 1.3rem; font-weight: 900; letter-spacing: -.02em; }
+  .k-logo span { color: #999; }
+  .k-head nav { display: flex; gap: 30px; margin-left: auto; }
+  .k-head nav a { color: #111; font-size: .9rem; font-weight: 600; }
+  .k-head nav a:hover { text-decoration: underline; text-underline-offset: 5px; }
+
+  .k-link { display: inline-block; font-weight: 700; color: #111; border-bottom: 2px solid #111; padding-bottom: 3px; transition: opacity .2s; }
+  .k-link:hover { opacity: .55; }
+  .k-link-lg { font-size: clamp(1.4rem, 4vw, 2.2rem); margin-top: 18px; }
+
+  .k-hero { padding-block: clamp(70px, 13vw, 150px); }
+  .k-hero h1 { font-size: clamp(2.6rem, 9vw, 6rem); font-weight: 900; line-height: 1.04; letter-spacing: -.04em; margin: 22px 0 28px; }
+  .k-hero h1 span { -webkit-text-stroke: 1.5px #111; -webkit-text-fill-color: transparent; }
+  .k-lead { font-size: clamp(1rem, 2.4vw, 1.3rem); color: #444; max-width: 540px; margin-bottom: 30px; line-height: 1.7; }
+
+  .k-quote { border-block: 1px solid #111; padding-block: clamp(40px, 7vw, 80px); }
+  .k-quote blockquote { font-size: clamp(1.3rem, 4vw, 2.4rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.4; }
+
+  .k-sec { padding-block: clamp(56px, 9vw, 110px); }
+  .k-h2 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 900; letter-spacing: -.02em; margin-bottom: clamp(30px, 5vw, 50px); }
+  .k-h2-light { color: #fff; }
+
+  .k-teacher { display: grid; grid-template-columns: 220px 1fr; gap: clamp(28px, 5vw, 56px); align-items: center; }
+  .k-teacher-photo { aspect-ratio: 1; background: #111; color: #fff; font-size: 5rem; display: flex; align-items: center; justify-content: center; font-weight: 300; }
+  .k-teacher-txt h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; letter-spacing: -.03em; margin: 8px 0 4px; }
+  .k-teacher-role { color: #999; font-weight: 600; margin-bottom: 18px; }
+  .k-teacher-desc { color: #444; line-height: 1.8; max-width: 460px; }
+
+  .k-dark { background: #111; color: #fff; }
+  .k-courses { list-style: none; }
+  .k-course { display: flex; align-items: center; gap: 22px; padding: 26px 0; border-top: 1px solid #333; }
+  .k-course:last-child { border-bottom: 1px solid #333; }
+  .k-course-no { font-size: 1rem; color: #666; font-weight: 700; width: 30px; }
+  .k-course-main { flex: 1; }
+  .k-course-main h3 { font-size: clamp(1.2rem, 3vw, 1.7rem); font-weight: 800; letter-spacing: -.02em; }
+  .k-course-main p { color: #999; font-size: .92rem; margin-top: 4px; }
+  .k-course-target { font-size: .82rem; color: #ccc; border: 1px solid #444; padding: 5px 12px; border-radius: 2px; white-space: nowrap; }
+
+  .k-principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: clamp(24px, 4vw, 44px); }
+  .k-principle { border-top: 3px solid #111; padding-top: 18px; }
+  .k-pnum { font-size: .9rem; font-weight: 800; color: #999; }
+  .k-principle h3 { font-size: 1.3rem; font-weight: 800; margin: 8px 0 10px; }
+  .k-principle p { color: #555; line-height: 1.7; font-size: .95rem; }
+
+  .k-cta { background: #111; color: #fff; padding-block: clamp(60px, 10vw, 120px); text-align: center; }
+  .k-cta h2 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; letter-spacing: -.03em; }
+  .k-cta .k-link { color: #fff; border-color: #fff; }
+
+  .k-foot { border-top: 1px solid #111; padding-block: 24px; }
+  .k-foot-in { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; font-size: .82rem; color: #666; }
+  .k-foot-in span:first-child { font-weight: 900; color: #111; }
+  .k-foot a { color: #111; font-weight: 700; text-decoration: underline; }
+
+  @media (max-width: 680px) {
+    .k-teacher { grid-template-columns: 1fr; }
+    .k-teacher-photo { max-width: 180px; }
+    .k-head nav { gap: 18px; }
+  }
+</style>

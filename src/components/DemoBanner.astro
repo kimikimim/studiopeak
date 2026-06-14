@@ -1,0 +1,29 @@
+---
+interface Props {
+  domain: string;
+  accent?: string;
+}
+const { domain, accent = '#3b82f6' } = Astro.props;
+---
+
+<div class="demo-banner" style={`--db-accent:${accent}`}>
+  <span>이 페이지는 <strong>PEAK STUDIO</strong> 데모입니다 · <strong>{domain}</strong></span>
+  <a href="https://studiopeak.site/#contact">우리 학원도 만들기 →</a>
+</div>
+
+<style>
+  .demo-banner {
+    background: #0b1120;
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    padding: 9px clamp(16px, 4vw, 32px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .demo-banner strong { color: #fff; }
+  .demo-banner a { color: var(--db-accent); font-weight: 700; white-space: nowrap; text-decoration: none; }
+</style>
