@@ -141,6 +141,12 @@ const contact = {
   submitLabel: '견적 문의 보내기',
 };
 
+// ───────────────────────────────────────────────────────────
+//  Web3Forms 액세스 키 — https://web3forms.com 에서 이메일 입력 후 무료 발급.
+//  발급받은 Access Key(UUID)를 붙여넣으면 폼 제출이 해당 이메일로 전송됩니다.
+// ───────────────────────────────────────────────────────────
+const WEB3FORMS_KEY = '';
+
 // 인라인 SVG 아이콘 (value.icon 키와 매칭)
 const icons: Record<string, string> = {
   mobile:
@@ -325,12 +331,17 @@ const navLinks = [
           </ul>
         </div>
 
-        <form
-          class="contact-form"
-          name="estimate"
-          method="POST"
-          onsubmit="event.preventDefault(); this.reset(); document.getElementById('form-ok').hidden = false;"
-        >
+        <form class="contact-form" id="estimate-form" data-web3forms-key={WEB3FORMS_KEY}>
+          <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+          <input type="hidden" name="subject" value="[studiopeak.site] 새 견적 문의가 도착했습니다" />
+          <input type="hidden" name="from_name" value="PEAK STUDIO 견적 문의" />
+          <input
+            type="checkbox"
+            name="botcheck"
+            class="hp-field"
+            tabindex="-1"
+            autocomplete="off"
+          />
           <div class="field-row">
             {
               contact.fields.map((f) => (
@@ -357,9 +368,7 @@ const navLinks = [
               placeholder={contact.messageField.placeholder}></textarea>
           </label>
           <button type="submit" class="btn btn-primary form-submit">{contact.submitLabel}</button>
-          <p id="form-ok" class="form-ok" hidden>
-            ✓ 문의가 접수되었습니다. 빠르게 연락드리겠습니다!
-          </p>
+          <p id="form-result" class="form-result" role="status" hidden></p>
         </form>
       </div>
     </section>
@@ -872,12 +881,28 @@ const navLinks = [
     margin-top: 20px;
   }
 
-  .form-ok {
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .form-result {
     margin-top: 16px;
     text-align: center;
-    color: #6ee7b7;
     font-weight: 600;
     font-size: 0.92rem;
+  }
+
+  .form-result.is-ok {
+    color: #6ee7b7;
+  }
+
+  .form-result.is-error {
+    color: #fca5a5;
   }
 
   /* ─────────── FOOTER ─────────── */
@@ -977,4 +1002,59 @@ const navLinks = [
       node.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
       io.observe(node);
     });
+
+  // ─────────── 견적 문의 폼 (Web3Forms) ───────────
+  const form = document.getElementById('estimate-form') as HTMLFormElement | null;
+  const result = document.getElementById('form-result') as HTMLElement | null;
+
+  if (form && result) {
+    const key = form.dataset.web3formsKey?.trim();
+    const submitBtn = form.querySelector<HTMLButtonElement>('.form-submit');
+    const defaultLabel = submitBtn?.textContent ?? '';
+
+    const show = (msg: string, ok: boolean) => {
+      result.textContent = msg;
+      result.classList.toggle('is-ok', ok);
+      result.classList.toggle('is-error', !ok);
+      result.hidden = false;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // 액세스 키 미설정 시: 실수로 빈 제출이 새지 않도록 안내
+      if (!key) {
+        show('⚠ 폼이 아직 연결되지 않았습니다. 이메일로 직접 문의해 주세요.', false);
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '전송 중...';
+      }
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          show('✓ 문의가 접수되었습니다. 빠르게 연락드리겠습니다!', true);
+          form.reset();
+        } else {
+          show('전송에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 문의해 주세요.', false);
+        }
+      } catch {
+        show('네트워크 오류로 전송하지 못했습니다. 이메일로 문의해 주세요.', false);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = defaultLabel;
+        }
+      }
+    });
+  }
 </script>
