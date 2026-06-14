@@ -1,0 +1,980 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// ───────────────────────────────────────────────────────────
+//  SITE DATA — 모든 카피·링크·서브도메인은 이 객체에서 관리합니다.
+//  포트폴리오/프로세스 추가·변경 시 아래 데이터만 수정하면 됩니다.
+// ───────────────────────────────────────────────────────────
+
+const brand = {
+  name: 'PEAK STUDIO',
+  tagline: '학원 전문 웹사이트 스튜디오',
+  domain: 'peakstudio.site',
+  email: 'contact@peakstudio.site',
+  phone: '02-1234-5678',
+};
+
+const hero = {
+  badge: '학원 전문 · 고성능 웹사이트',
+  title: ['원생 모집을 늘리는', '학원 전문 고성능 웹사이트 제작'],
+  subtitle:
+    '검색에 잘 잡히고, 스마트폰에서 빠르게 열리는 웹사이트. 학원의 신뢰도를 높이고 상담 문의를 늘리는 데 집중합니다.',
+  primaryCta: { label: '무료 견적 문의하기', href: '#contact' },
+  secondaryCta: { label: '포트폴리오 보기', href: '#portfolio' },
+  stats: [
+    { value: '0.9s', label: '평균 로딩 속도' },
+    { value: '100%', label: '모바일 반응형' },
+    { value: 'N/G', label: '네이버·구글 노출' },
+  ],
+};
+
+const values = {
+  eyebrow: 'Why Peak?',
+  title: '학원 원장님이 피크 스튜디오를 선택하는 이유',
+  subtitle: '디자인보다 결과. 문의 전화가 늘어나는 웹사이트를 만듭니다.',
+  items: [
+    {
+      icon: 'mobile',
+      title: '모바일 최적화',
+      desc: '학부모의 90%는 스마트폰으로 학원을 검색합니다. 어떤 기기에서도 완벽하게 정렬되는 반응형으로 제작합니다.',
+    },
+    {
+      icon: 'search',
+      title: '네이버·구글 SEO',
+      desc: '"우리 동네 + 과목" 검색 시 상위에 노출되도록 구조화된 메타데이터와 지역 키워드를 설계합니다.',
+    },
+    {
+      icon: 'won',
+      title: '거품 없는 합리적 비용',
+      desc: '템플릿 기반 고성능 구조로 대형 에이전시 대비 합리적인 비용. 불필요한 유지보수비를 없앴습니다.',
+    },
+    {
+      icon: 'chat',
+      title: '지역 기반 빠른 소통',
+      desc: '같은 시간대, 빠른 응대. 카카오톡·전화로 수정 요청을 즉시 반영하는 밀착 커뮤니케이션.',
+    },
+  ],
+};
+
+const portfolio = {
+  eyebrow: 'Portfolio',
+  title: '과목별 데모 사이트',
+  subtitle: '학원 유형에 맞춘 데모를 미리 확인하고, 우리 학원에 맞게 커스터마이징하세요.',
+  items: [
+    {
+      subject: '수학학원',
+      tag: 'MATH',
+      desc: '성적 향상 그래프와 레벨테스트 신청을 강조한 전환 중심 레이아웃.',
+      url: 'https://math.peakstudio.site',
+      accent: '#3b82f6',
+      status: 'live',
+    },
+    {
+      subject: '영어학원',
+      tag: 'ENGLISH',
+      desc: '원어민 강사 소개와 회화 클래스 예약에 최적화된 밝은 톤 디자인.',
+      url: 'https://english.peakstudio.site',
+      accent: '#06b6d4',
+      status: 'live',
+    },
+    {
+      subject: '국어·논술학원',
+      tag: 'KOREAN',
+      desc: '입시 일정과 첨삭 후기 중심으로 신뢰감을 주는 차분한 구성.',
+      url: '#',
+      accent: '#8b5cf6',
+      status: 'soon',
+    },
+    {
+      subject: '종합·입시학원',
+      tag: 'PREP',
+      desc: '대형 학원용 다중 캠퍼스·시간표 관리형 페이지.',
+      url: '#',
+      accent: '#f59e0b',
+      status: 'soon',
+    },
+  ],
+};
+
+const process = {
+  eyebrow: 'Process',
+  title: '문의부터 포털 등록까지, 4단계',
+  subtitle: '복잡한 과정 없이, 원장님은 학원 운영에만 집중하세요.',
+  steps: [
+    {
+      no: '01',
+      title: '문의 & 상담',
+      desc: '학원 정보와 원하는 방향을 듣고 최적의 템플릿과 견적을 제안합니다.',
+    },
+    {
+      no: '02',
+      title: '디자인 & 제작',
+      desc: '브랜드 컬러와 사진을 반영해 시안을 제작하고 함께 다듬습니다.',
+    },
+    {
+      no: '03',
+      title: '검수 & 배포',
+      desc: '모바일·PC 전수 점검 후 학원 전용 도메인으로 배포합니다.',
+    },
+    {
+      no: '04',
+      title: '포털 등록 & SEO',
+      desc: '네이버·구글에 사이트를 등록하고 지역 검색 노출까지 마무리합니다.',
+    },
+  ],
+};
+
+const contact = {
+  eyebrow: 'Contact',
+  title: '5초면 충분합니다. 견적부터 받아보세요.',
+  subtitle: '남겨주시면 영업일 기준 24시간 이내에 연락드립니다.',
+  fields: [
+    { name: 'name', label: '이름', type: 'text', placeholder: '홍길동', required: true },
+    { name: 'academy', label: '학원명', type: 'text', placeholder: '피크수학학원', required: true },
+    { name: 'phone', label: '연락처', type: 'tel', placeholder: '010-0000-0000', required: true },
+  ],
+  messageField: {
+    name: 'message',
+    label: '문의 내용',
+    placeholder: '제작하고 싶은 사이트나 궁금한 점을 자유롭게 적어주세요.',
+  },
+  submitLabel: '견적 문의 보내기',
+};
+
+// 인라인 SVG 아이콘 (value.icon 키와 매칭)
+const icons: Record<string, string> = {
+  mobile:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg>',
+  search:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>',
+  won: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l3 10 5-13 5 13 3-10"/><line x1="2.5" y1="11" x2="21.5" y2="11"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l.9-4.6A8 8 0 1 1 21 12z"/></svg>',
+};
+
+const year = new Date().getFullYear();
+const navLinks = [
+  { label: 'Why Peak?', href: '#why' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Process', href: '#process' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<Layout title={`${brand.name} — ${brand.tagline}`}>
+  <!-- ─────────────── HEADER ─────────────── -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="logo" aria-label={brand.name}>
+        <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <path
+            d="M3 27 L13 8 L19 18 L22 13 L29 27 Z"
+            fill="url(#peak-grad)"
+            stroke="#c7ced9"
+            stroke-width="0.8"
+            stroke-linejoin="round"></path>
+          <defs>
+            <linearGradient id="peak-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#eef2f8"></stop>
+              <stop offset="1" stop-color="#9aa6b8"></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">PEAK <span>STUDIO</span></span>
+      </a>
+      <nav class="nav">
+        {navLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <a href="#contact" class="btn btn-primary header-cta">견적 문의</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ─────────────── 1. HERO ─────────────── -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <span class="hero-badge">{hero.badge}</span>
+        <h1 class="hero-title">
+          {hero.title.map((line) => <span class="hero-line">{line}</span>)}
+        </h1>
+        <p class="hero-sub">{hero.subtitle}</p>
+        <div class="hero-actions">
+          <a href={hero.primaryCta.href} class="btn btn-primary">{hero.primaryCta.label}</a>
+          <a href={hero.secondaryCta.href} class="btn btn-ghost">{hero.secondaryCta.label}</a>
+        </div>
+        <dl class="hero-stats">
+          {
+            hero.stats.map((s) => (
+              <div class="hero-stat">
+                <dt>{s.value}</dt>
+                <dd>{s.label}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <!-- ─────────────── 2. WHY PEAK ─────────────── -->
+    <section class="section" id="why">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">{values.eyebrow}</span>
+          <h2>{values.title}</h2>
+          <p>{values.subtitle}</p>
+        </div>
+        <div class="value-grid">
+          {
+            values.items.map((item) => (
+              <article class="value-card">
+                <span class="value-icon" set:html={icons[item.icon]} />
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────── 3. PORTFOLIO ─────────────── -->
+    <section class="section section-tint" id="portfolio">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">{portfolio.eyebrow}</span>
+          <h2>{portfolio.title}</h2>
+          <p>{portfolio.subtitle}</p>
+        </div>
+        <div class="portfolio-grid">
+          {
+            portfolio.items.map((item) => (
+              <a
+                class:list={['portfolio-card', { disabled: item.status === 'soon' }]}
+                href={item.url}
+                target={item.status === 'live' ? '_blank' : undefined}
+                rel={item.status === 'live' ? 'noopener' : undefined}
+                aria-disabled={item.status === 'soon'}
+              >
+                <div class="portfolio-thumb" style={`--card-accent:${item.accent}`}>
+                  <span class="portfolio-tag">{item.tag}</span>
+                  {item.status === 'soon' && <span class="portfolio-soon">준비 중</span>}
+                  <svg class="portfolio-peak" viewBox="0 0 120 80" aria-hidden="true">
+                    <path d="M0 80 L35 26 L58 52 L74 34 L120 80 Z" fill="rgba(255,255,255,0.18)" />
+                    <path d="M0 80 L48 18 L78 56 L98 40 L120 80 Z" fill="rgba(255,255,255,0.28)" />
+                  </svg>
+                </div>
+                <div class="portfolio-body">
+                  <h3>{item.subject}</h3>
+                  <p>{item.desc}</p>
+                  <span class="portfolio-link">
+                    {item.status === 'live' ? item.url.replace('https://', '') : '오픈 예정'}
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <path
+                        d="M5 3l5 5-5 5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────── 4. PROCESS ─────────────── -->
+    <section class="section" id="process">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">{process.eyebrow}</span>
+          <h2>{process.title}</h2>
+          <p>{process.subtitle}</p>
+        </div>
+        <ol class="process-track">
+          {
+            process.steps.map((step) => (
+              <li class="process-step">
+                <span class="process-no">{step.no}</span>
+                <div class="process-content">
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- ─────────────── 5. CONTACT ─────────────── -->
+    <section class="section contact" id="contact">
+      <div class="container contact-inner">
+        <div class="contact-info">
+          <span class="eyebrow eyebrow-light">{contact.eyebrow}</span>
+          <h2>{contact.title}</h2>
+          <p>{contact.subtitle}</p>
+          <ul class="contact-meta">
+            <li><strong>이메일</strong> {brand.email}</li>
+            <li><strong>전화</strong> {brand.phone}</li>
+            <li><strong>도메인</strong> {brand.domain}</li>
+          </ul>
+        </div>
+
+        <form
+          class="contact-form"
+          name="estimate"
+          method="POST"
+          onsubmit="event.preventDefault(); this.reset(); document.getElementById('form-ok').hidden = false;"
+        >
+          <div class="field-row">
+            {
+              contact.fields.map((f) => (
+                <label class="field">
+                  <span>
+                    {f.label}
+                    {f.required && <i aria-hidden="true">*</i>}
+                  </span>
+                  <input
+                    type={f.type}
+                    name={f.name}
+                    placeholder={f.placeholder}
+                    required={f.required}
+                  />
+                </label>
+              ))
+            }
+          </div>
+          <label class="field">
+            <span>{contact.messageField.label}</span>
+            <textarea
+              name={contact.messageField.name}
+              rows="4"
+              placeholder={contact.messageField.placeholder}></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary form-submit">{contact.submitLabel}</button>
+          <p id="form-ok" class="form-ok" hidden>
+            ✓ 문의가 접수되었습니다. 빠르게 연락드리겠습니다!
+          </p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ─────────────── FOOTER ─────────────── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text logo-text-light">PEAK <span>STUDIO</span></span>
+        <p>{brand.tagline} · 원생 모집을 늘리는 고성능 웹사이트</p>
+      </div>
+      <nav class="footer-nav">
+        {navLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+      </nav>
+      <p class="footer-copy">© {year} {brand.name}. All rights reserved.</p>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* ─────────── HEADER ─────────── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(11, 31, 58, 0.82);
+    border-bottom: 1px solid rgba(199, 206, 217, 0.12);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 68px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-mark {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logo-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    font-size: 1.05rem;
+    color: var(--color-white);
+  }
+
+  .logo-text span {
+    color: var(--color-silver-soft);
+    font-weight: 600;
+  }
+
+  .nav {
+    display: flex;
+    gap: 28px;
+    margin-left: auto;
+  }
+
+  .nav a {
+    color: var(--color-text-dim);
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color 0.2s var(--ease);
+  }
+
+  .nav a:hover {
+    color: var(--color-white);
+  }
+
+  .header-cta {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  /* ─────────── HERO ─────────── */
+  .hero {
+    position: relative;
+    background: radial-gradient(120% 120% at 50% -10%, #15356a 0%, var(--color-navy) 45%, var(--color-charcoal) 100%);
+    color: var(--color-text);
+    overflow: hidden;
+    padding-block: clamp(72px, 12vw, 140px);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(199, 206, 217, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(199, 206, 217, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(80% 60% at 50% 30%, #000 0%, transparent 75%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(199, 206, 217, 0.28);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-silver);
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin: 24px 0 20px;
+    color: var(--color-white);
+  }
+
+  .hero-line {
+    display: block;
+  }
+
+  .hero-line:last-child {
+    background: linear-gradient(120deg, #ffffff 10%, #93c5fd 60%, #c7ced9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    max-width: 600px;
+    font-size: clamp(1rem, 2.2vw, 1.18rem);
+    color: var(--color-text-dim);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 34px;
+  }
+
+  .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(28px, 6vw, 64px);
+    margin-top: 56px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(199, 206, 217, 0.14);
+    width: 100%;
+    max-width: 620px;
+  }
+
+  .hero-stat dt {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 800;
+    color: var(--color-white);
+  }
+
+  .hero-stat dd {
+    font-size: 0.85rem;
+    color: var(--color-text-dim);
+    margin-top: 4px;
+  }
+
+  /* ─────────── VALUE GRID ─────────── */
+  .section-tint {
+    background: var(--color-mist);
+  }
+
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+  }
+
+  .value-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-cloud);
+    border-radius: var(--radius-md);
+    padding: 30px 26px;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 0.3s var(--ease),
+      box-shadow 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+
+  .value-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: #c7d4ee;
+  }
+
+  .value-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #e8effc, #d6e2fb);
+    color: var(--color-navy-500);
+    margin-bottom: 18px;
+  }
+
+  .value-icon :global(svg) {
+    width: 26px;
+    height: 26px;
+  }
+
+  .value-card h3 {
+    font-size: 1.18rem;
+    color: var(--color-ink);
+    margin-bottom: 10px;
+  }
+
+  .value-card p {
+    color: var(--color-text-ink-dim);
+    font-size: 0.96rem;
+  }
+
+  /* ─────────── PORTFOLIO ─────────── */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .portfolio-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-cloud);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform 0.3s var(--ease),
+      box-shadow 0.3s var(--ease);
+  }
+
+  .portfolio-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .portfolio-card.disabled {
+    cursor: default;
+    opacity: 0.78;
+  }
+
+  .portfolio-card.disabled:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .portfolio-thumb {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(150deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 55%, #0b1f3a));
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .portfolio-peak {
+    width: 100%;
+    height: auto;
+  }
+
+  .portfolio-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.92);
+    background: rgba(0, 0, 0, 0.18);
+    padding: 5px 11px;
+    border-radius: 999px;
+  }
+
+  .portfolio-soon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--color-ink);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px 11px;
+    border-radius: 999px;
+  }
+
+  .portfolio-body {
+    padding: 22px 22px 24px;
+  }
+
+  .portfolio-body h3 {
+    font-size: 1.2rem;
+    color: var(--color-ink);
+    margin-bottom: 8px;
+  }
+
+  .portfolio-body p {
+    color: var(--color-text-ink-dim);
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+  }
+
+  .portfolio-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--color-navy-500);
+  }
+
+  .portfolio-link svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s var(--ease);
+  }
+
+  .portfolio-card:not(.disabled):hover .portfolio-link svg {
+    transform: translateX(4px);
+  }
+
+  /* ─────────── PROCESS ─────────── */
+  .process-track {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    counter-reset: step;
+  }
+
+  .process-step {
+    position: relative;
+    padding: 28px 24px;
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    border: 1px solid var(--color-cloud);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .process-step::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -16px;
+    width: 16px;
+    height: 2px;
+    background: var(--color-silver);
+  }
+
+  .process-step:last-child::after {
+    display: none;
+  }
+
+  .process-no {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+    background: var(--accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .process-content h3 {
+    font-size: 1.15rem;
+    color: var(--color-ink);
+    margin: 14px 0 8px;
+  }
+
+  .process-content p {
+    color: var(--color-text-ink-dim);
+    font-size: 0.94rem;
+  }
+
+  /* ─────────── CONTACT ─────────── */
+  .contact {
+    background: linear-gradient(160deg, var(--color-charcoal) 0%, var(--color-navy) 100%);
+    color: var(--color-text);
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(36px, 6vw, 72px);
+    align-items: center;
+  }
+
+  .eyebrow-light {
+    color: #93c5fd;
+  }
+
+  .contact-info h2 {
+    font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+    color: var(--color-white);
+    margin: 14px 0 14px;
+  }
+
+  .contact-info > p {
+    color: var(--color-text-dim);
+    margin-bottom: 28px;
+  }
+
+  .contact-meta {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+
+  .contact-meta li {
+    font-size: 0.95rem;
+    color: var(--color-silver);
+  }
+
+  .contact-meta strong {
+    display: inline-block;
+    width: 64px;
+    color: var(--color-text-dim);
+    font-weight: 600;
+  }
+
+  .contact-form {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(199, 206, 217, 0.16);
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 4vw, 36px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-silver);
+  }
+
+  .field i {
+    color: #93c5fd;
+    font-style: normal;
+    margin-left: 2px;
+  }
+
+  .field input,
+  .field textarea {
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--color-white);
+    background: rgba(11, 31, 58, 0.5);
+    border: 1px solid rgba(199, 206, 217, 0.22);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    transition:
+      border-color 0.2s var(--ease),
+      box-shadow 0.2s var(--ease);
+    resize: vertical;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--color-silver-soft);
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  }
+
+  .form-submit {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .form-ok {
+    margin-top: 16px;
+    text-align: center;
+    color: #6ee7b7;
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  /* ─────────── FOOTER ─────────── */
+  .footer {
+    background: var(--color-charcoal);
+    color: var(--color-text-dim);
+    padding-block: 44px;
+    border-top: 1px solid rgba(199, 206, 217, 0.1);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 40px;
+  }
+
+  .footer-brand p {
+    font-size: 0.88rem;
+    margin-top: 8px;
+  }
+
+  .logo-text-light {
+    font-size: 1.1rem;
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: 22px;
+    margin-left: auto;
+  }
+
+  .footer-nav a {
+    font-size: 0.9rem;
+    transition: color 0.2s var(--ease);
+  }
+
+  .footer-nav a:hover {
+    color: var(--color-white);
+  }
+
+  .footer-copy {
+    width: 100%;
+    font-size: 0.82rem;
+    color: var(--color-silver-soft);
+    padding-top: 18px;
+    border-top: 1px solid rgba(199, 206, 217, 0.08);
+  }
+
+  /* ─────────── RESPONSIVE ─────────── */
+  @media (max-width: 860px) {
+    .nav {
+      display: none;
+    }
+
+    .contact-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .process-step::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .header-cta {
+      margin-left: auto;
+    }
+
+    .hero-actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+<script>
+  // 스크롤 진입 시 카드 페이드인 (선택적 향상)
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).style.opacity = '1';
+          (e.target as HTMLElement).style.transform = 'none';
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { threshold: 0.12 },
+  );
+
+  document
+    .querySelectorAll('.value-card, .portfolio-card, .process-step')
+    .forEach((el) => {
+      const node = el as HTMLElement;
+      node.style.opacity = '0';
+      node.style.transform = 'translateY(18px)';
+      node.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      io.observe(node);
+    });
+</script>
