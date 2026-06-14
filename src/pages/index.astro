@@ -65,7 +65,8 @@ const portfolio = {
       subject: '수학학원',
       tag: 'MATH',
       desc: '성적 향상 그래프와 레벨테스트 신청을 강조한 전환 중심 레이아웃.',
-      url: 'https://math.studiopeak.site',
+      url: '/demo/math',
+      label: 'math.studiopeak.site',
       accent: '#3b82f6',
       status: 'live',
     },
@@ -73,7 +74,8 @@ const portfolio = {
       subject: '영어학원',
       tag: 'ENGLISH',
       desc: '원어민 강사 소개와 회화 클래스 예약에 최적화된 밝은 톤 디자인.',
-      url: 'https://english.studiopeak.site',
+      url: '/demo/english',
+      label: 'english.studiopeak.site',
       accent: '#06b6d4',
       status: 'live',
     },
@@ -257,8 +259,8 @@ const navLinks = [
               <a
                 class:list={['portfolio-card', { disabled: item.status === 'soon' }]}
                 href={item.url}
-                target={item.status === 'live' ? '_blank' : undefined}
-                rel={item.status === 'live' ? 'noopener' : undefined}
+                target={item.url.startsWith('http') ? '_blank' : undefined}
+                rel={item.url.startsWith('http') ? 'noopener' : undefined}
                 aria-disabled={item.status === 'soon'}
               >
                 <div class="portfolio-thumb" style={`--card-accent:${item.accent}`}>
@@ -273,7 +275,7 @@ const navLinks = [
                   <h3>{item.subject}</h3>
                   <p>{item.desc}</p>
                   <span class="portfolio-link">
-                    {item.status === 'live' ? item.url.replace('https://', '') : '오픈 예정'}
+                    {item.status === 'live' ? (item.label ?? item.url) : '오픈 예정'}
                     <svg viewBox="0 0 16 16" aria-hidden="true">
                       <path
                         d="M5 3l5 5-5 5"
