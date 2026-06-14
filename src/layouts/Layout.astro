@@ -8,6 +8,17 @@ const {
   title,
   description = '학원 전문 고성능 웹사이트 제작 스튜디오. 모바일 최적화, 네이버·구글 SEO, 합리적 비용으로 원생 모집을 늘려드립니다.',
 } = Astro.props;
+
+// ───────────────────────────────────────────────────────────
+//  검색엔진 사이트 소유확인 코드 — 콘솔에서 발급받은 값을 붙여넣으세요.
+//  값이 비어 있으면 해당 메타 태그는 출력되지 않습니다.
+//   · 구글 서치콘솔: https://search.google.com/search-console
+//   · 네이버 서치어드바이저: https://searchadvisor.naver.com
+// ───────────────────────────────────────────────────────────
+const verification = {
+  google: '', // <meta name="google-site-verification"> 의 content 값
+  naver: '', //  <meta name="naver-site-verification"> 의 content 값
+};
 ---
 
 <!doctype html>
@@ -18,6 +29,11 @@ const {
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://studiopeak.site/" />
+
+    <!-- 검색엔진 소유확인 -->
+    {verification.google && <meta name="google-site-verification" content={verification.google} />}
+    {verification.naver && <meta name="naver-site-verification" content={verification.naver} />}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
